@@ -24,7 +24,8 @@ int main(int argc, char* argv[])
         printf("3- List all interships;\n");
         printf("4- List current interships;\n");
         printf("5- Search any intership for index;\n");
-        printf("6- Exit.\n\n");
+        printf("6- Change active intership for index;\n");
+        printf("7- Exit.\n\n");
         printf("Option: ");
         scanf("%d", &option);
         printf("----------------------------------------------------\n");
@@ -62,6 +63,12 @@ int main(int argc, char* argv[])
                 break;
                 
             case 6:
+                printf("Index you want change active: ");
+                scanf("%d", &index);
+                changeStatusOfIntership(newIntershipList, index);
+                break;
+
+            case 7:
                 printf("\nGood Bye!\n");
                 break;
 
@@ -69,7 +76,7 @@ int main(int argc, char* argv[])
                 printf("\nInvalid option! Please, choose a number between 1 and 6!");
                 break;
         }
-    } while (option != 6);
+    } while (option != 7);
 
     deleteList(newIntershipList);
     return EXIT_SUCCESS;
@@ -262,4 +269,20 @@ void rebouceIntershipsIndexes(intershipList *list)
         index++;
     }
 
+}
+
+void changeStatusOfIntership(intershipList *list, int index)
+{
+    int i = 1;
+    intership *current = list->firstIntership;
+
+
+    while (i <= list->sizeList) {
+        if (i == index) {
+            current->isActive = false;
+            return;
+        }
+        current = current->next;
+        i++;
+    }
 }
