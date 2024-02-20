@@ -30,13 +30,13 @@ int main(int argc, char* argv[])
         {
         case 1:
             printf("What's the name of Company: ");
-            scanf("%s", &cn);
+            scanf("%s", cn);
             printf("\n");
             printf("What's the occupation area: ");
-            scanf("%s", &oa);
+            scanf("%s", oa);
             printf("\n");
             printf("What's the type of work: ");
-            scanf("%c", &t);
+            scanf(" %c", &t);
             addIntership(newIntershipList, cn, oa, t);
             break;
 
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
             break;
 
         case 3:
-            /* code */
+            listInterships(newIntershipList);
             break;
 
         case 4:
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 
     } while (option > 0);
 
-
+    deleteList(newIntershipList);
     return EXIT_SUCCESS;
 }
 
@@ -97,5 +97,48 @@ void addIntership(intershipList *list, char cn[], char oa[], char t)
     else {
         list->lastIntership->next = newIntership;
         list->lastIntership = newIntership;
+    }
+}
+
+void listInterships(intershipList *list)
+{
+    if (list->sizeList == 0){ 
+        printf("Empty list!");
+        return;
+    }
+
+    intership *aux = list->firstIntership;
+    int index = 1;
+
+    printf("\n---------------- List of interships ----------------\n");
+    do {
+        printf("index: %d", aux->index);
+        printf("\n");
+        printf("Company name: %s", aux->companyName);
+        printf("\n");
+        printf("Occupation area: %s", aux->occupationArea);
+        printf("\n");
+        printf("Type of work: %c", aux->type);
+        printf("\n");
+        printf("Is active: %d", aux->isActive);
+        printf("\n");
+        printf("----------------------------------------------------\n");
+        aux = aux->next;
+        index++;
+    } while (index <= list->sizeList); 
+}
+
+void deleteList(intershipList *list)
+{
+    intership *aux = list->firstIntership;
+
+    if (list == NULL) return;
+
+    while (aux->index < list->lastIntership->index) {
+        if (aux->next == list->lastIntership) {
+            free(aux->next);
+            list->lastIntership = aux;
+            deleteList(list);
+        }
     }
 }
