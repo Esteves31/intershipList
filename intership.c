@@ -31,10 +31,8 @@ int main(int argc, char* argv[])
         case 1:
             printf("What's the name of Company: ");
             scanf("%s", cn);
-            printf("\n");
             printf("What's the occupation area: ");
             scanf("%s", oa);
-            printf("\n");
             printf("What's the type of work: ");
             scanf(" %c", &t);
             addIntership(newIntershipList, cn, oa, t);
@@ -49,7 +47,7 @@ int main(int argc, char* argv[])
             break;
 
         case 4:
-            /* code */
+            listCurrentInterships(newIntershipList);
             break;
 
         case 5:
@@ -126,6 +124,41 @@ void listInterships(intershipList *list)
         aux = aux->next;
         index++;
     } while (index <= list->sizeList); 
+}
+
+void listCurrentInterships(intershipList *list)
+{
+    if (list->firstIntership == NULL) {
+        printf("You don't have any interships registered!");
+        return;
+    }
+
+    intership *aux = list->firstIntership;
+    int qtd = 0;
+    int index = 1;
+
+    printf("\n------------- List of current interships -------------\n");
+    do {
+        if (aux->isActive == 1) {
+            printf("index: %d", aux->index);
+            printf("\n");
+            printf("Company name: %s", aux->companyName);
+            printf("\n");
+            printf("Occupation area: %s", aux->occupationArea);
+            printf("\n");
+            printf("Type of work: %c", aux->type);
+            printf("\n");
+            printf("Is active: %d", aux->isActive);
+            printf("\n");
+            printf("----------------------------------------------------\n");
+            qtd++;
+            index++;
+        }
+        aux = aux->next;
+    } while (index <= list->sizeList);
+
+    if (qtd == 0) 
+        printf("\nThere arent actives interships right now!");
 }
 
 void deleteList(intershipList *list)
