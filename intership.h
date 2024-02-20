@@ -29,5 +29,6 @@ void listCurrentInterships(intershipList *list);
 void deleteList(intershipList *list);
 void searchIntershipByIndex(intershipList *list, int index);
 void rebouceIntershipsIndexes(intershipList *list);
+void changeStatusOfIntership(intershipList *list, int index);
 
 #endif
