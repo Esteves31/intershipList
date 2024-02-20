@@ -22,7 +22,7 @@ struct IntershipList
     intership *firstIntership, *lastIntership;
 };
 
-void addIntership(intership *new, char cn[], char oa[], char t, int i);
+void addIntership(intershipList *list, char cn[], char oa[], char t, int i);
 void removeIntership();
 void listInterships();
 
