@@ -5,11 +5,14 @@
 
 int main(int argc, char* argv[])
 {
-    char cn[20], oa[30], t;
+    char cn[20];
+    char oa[30];
+    char t;
     int option;
+    int index;
     intershipList *newIntershipList;
 
-    newIntershipList = (intershipList*) malloc(sizeof(intershipList));
+    newIntershipList = (intershipList*)malloc(sizeof(intershipList));
     newIntershipList->firstIntership = NULL;
     newIntershipList->lastIntership = NULL;
     newIntershipList->sizeList = 0;
@@ -28,43 +31,45 @@ int main(int argc, char* argv[])
 
         switch (option)
         {
-        case 1:
-            printf("What's the name of Company: ");
-            scanf("%s", cn);
-            printf("What's the occupation area: ");
-            scanf("%s", oa);
-            printf("What's the type of work: ");
-            scanf(" %c", &t);
-            addIntership(newIntershipList, cn, oa, t);
-            break;
+            case 1:
+                printf("What's the name of Company: ");
+                scanf("%s", cn);
+                printf("What's the occupation area: ");
+                scanf("%s", oa);
+                printf("What's the type of work: ");
+                scanf(" %c", &t);
+                addIntership(newIntershipList, cn, oa, t);
+                break;
 
-        case 2:
-            /* code */
-            break;
+            case 2:
+                printf("Index you want to remove: ");
+                scanf("%d", &index);
+                removeIntership(newIntershipList, index);
+                break;
 
-        case 3:
-            listInterships(newIntershipList);
-            break;
+            case 3:
+                listInterships(newIntershipList);
+                break;
 
-        case 4:
-            listCurrentInterships(newIntershipList);
-            break;
+            case 4:
+                listCurrentInterships(newIntershipList);
+                break;
 
-        case 5:
-            /* code */
-            break;
-        case 6:
-            printf("\nGood Bye!\n");
-            option = 0;
-            break;
+            case 5:
+                printf("Index: ");
+                scanf("%d", &index);
+                searchIntershipByIndex(newIntershipList, index);
+                break;
+                
+            case 6:
+                printf("\nGood Bye!\n");
+                break;
 
-        default:
-            printf("\nInvalid option! Please, choose a number between 1 and 6!");
-            break;
+            default:
+                printf("\nInvalid option! Please, choose a number between 1 and 6!");
+                break;
         }
-
-
-    } while (option > 0);
+    } while (option != 6);
 
     deleteList(newIntershipList);
     return EXIT_SUCCESS;
@@ -96,6 +101,43 @@ void addIntership(intershipList *list, char cn[], char oa[], char t)
         list->lastIntership->next = newIntership;
         list->lastIntership = newIntership;
     }
+}
+
+void removeIntership(intershipList *list, int index)
+{
+    if (index > list->sizeList || index < 1 || list->sizeList == 0) {
+        printf("Index not exists! Please look at the list before try remove it");
+        return;
+    }
+
+    intership *aux = list->firstIntership;
+    intership *nodeToRemove = NULL;
+
+    if (index == list->firstIntership->index) {
+        nodeToRemove = list->firstIntership;
+        list->firstIntership = nodeToRemove->next;
+        if (list->firstIntership == NULL)
+            list->lastIntership = NULL;
+    }
+    else {
+        while (aux != NULL && aux->next != NULL && aux->next->index != index) {
+            aux = aux->next;
+        }
+        if (aux != NULL && aux->next != NULL) {
+            nodeToRemove = aux->next;
+            aux->next = nodeToRemove->next;
+            if (aux->next == NULL)
+                list->lastIntership = aux;
+        }
+    }
+    if (nodeToRemove) {
+        free(nodeToRemove);
+        list->sizeList--;
+    }
+
+    rebouceIntershipsIndexes(list);
+
+    printf("Intership removed!");
 }
 
 void listInterships(intershipList *list)
@@ -163,15 +205,61 @@ void listCurrentInterships(intershipList *list)
 
 void deleteList(intershipList *list)
 {
-    intership *aux = list->firstIntership;
-
     if (list == NULL) return;
 
-    while (aux->index < list->lastIntership->index) {
-        if (aux->next == list->lastIntership) {
-            free(aux->next);
-            list->lastIntership = aux;
-            deleteList(list);
-        }
+    intership *current = list->firstIntership;
+    intership *next;
+
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
     }
+
+    list->firstIntership = NULL;
+    list->lastIntership = NULL;
+    list->sizeList = 0;
+}
+
+void searchIntershipByIndex(intershipList *list, int index)
+{
+    intership *aux = list->firstIntership;
+    bool hasIndex = false;
+    int i = 1;
+
+    while (i <= list->sizeList) {
+        if (i == index) {
+            printf("\n----------------- Intership index %d -----------------\n", index);
+            printf("Company name: %s", aux->companyName);
+            printf("\n");
+            printf("Occupation area: %s", aux->occupationArea);
+            printf("\n");
+            printf("Type of work: %c", aux->type);
+            printf("\n");
+            printf("Is active: %d", aux->isActive);
+            printf("\n");
+            printf("----------------------------------------------------\n");
+            hasIndex = true;
+        }
+        aux = aux->next;
+        i++;
+    }
+
+    if (!hasIndex)
+        printf("Sorry, index not found!");
+}
+
+void rebouceIntershipsIndexes(intershipList *list) 
+{
+    if (list->sizeList == 0) return;
+
+    int index = 1;
+    intership *aux = list->firstIntership;
+
+    while (aux != NULL) {
+        aux->index = index;
+        aux = aux->next;
+        index++;
+    }
+
 }
