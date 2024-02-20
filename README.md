@@ -2,6 +2,16 @@
 
 ## This project it's used for practice C language and remember some skills. <br>Also, this is help me for remember which interships I signed up for and whether or not I am participating.
 
+## How to compile this program:
+In the terminal, for example, write:
+```
+gcc main.c intership.c -o intership
+```
+and run with:
+```
+./intership
+```
+
 ## 🛠 Technologies:
 <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=c" /></a>
 <a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=git" /></a>
