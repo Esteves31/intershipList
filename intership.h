@@ -8,11 +8,11 @@ typedef struct IntershipList intershipList;
 
 struct Intership 
 {
+    bool isActive;
     char companyName[20];
     char occupationArea[30];
     char type;
     int index;
-    bool isActive;
     intership *next;
 };
 
@@ -23,12 +23,12 @@ struct IntershipList
 };
 
 void addIntership(intershipList *list, char cn[], char oa[], char t);
-void removeIntership(intershipList *list, int index);
+void changeStatusOfIntership(intershipList *list, int index);
+void deleteList(intershipList *list);
 void listInterships(intershipList *list);
 void listCurrentInterships(intershipList *list);
-void deleteList(intershipList *list);
-void searchIntershipByIndex(intershipList *list, int index);
 void rebouceIntershipsIndexes(intershipList *list);
-void changeStatusOfIntership(intershipList *list, int index);
+void removeIntership(intershipList *list, int index);
+void searchIntershipByIndex(intershipList *list, int index);
 
 #endif
