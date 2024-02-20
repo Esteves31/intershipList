@@ -201,9 +201,9 @@ void listCurrentInterships(intershipList *list)
             printf("\n");
             printf("----------------------------------------------------\n");
             qtd++;
-            index++;
         }
         aux = aux->next;
+        index++;
     } while (index <= list->sizeList);
 
     if (qtd == 0) 
