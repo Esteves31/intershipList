@@ -25,8 +25,8 @@ struct IntershipList
 void addIntership(intershipList *list, char cn[], char oa[], char t);
 void changeStatusOfIntership(intershipList *list, int index);
 void deleteList(intershipList *list);
-void listInterships(intershipList *list);
 void listCurrentInterships(intershipList *list);
+void listInterships(intershipList *list);
 void rebouceIntershipsIndexes(intershipList *list);
 void removeIntership(intershipList *list, int index);
 void searchIntershipByIndex(intershipList *list, int index);
